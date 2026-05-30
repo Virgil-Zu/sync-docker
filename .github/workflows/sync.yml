@@ -57,9 +57,7 @@ jobs:
             source_image="docker://$image"
             target_image="docker://${{ secrets.DEST_REGISTRY }}/${{ secrets.DEST_NAMESPACE }}/$target_image_name:$image_tag"
             
-            echo "========================================"
             echo "Checking: $target_image"
-            echo "========================================"
             
             if ! skopeo inspect --insecure-policy "$target_image" > /dev/null 2>&1; then
               missing_images+=("$source_image|$target_image")
@@ -70,7 +68,9 @@ jobs:
           done < images.txt
           
           if [ ${#missing_images[@]} -eq 0 ]; then
-            echo "all images exists, exit"
+            echo "========================================"
+            echo "All images exists, exit"
+            echo "========================================"
           else
             for item in "${missing_images[@]}"; do
               source=$(echo "$item" | cut -d'|' -f1)
