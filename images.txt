@@ -1,0 +1,9 @@
+
+debian:13.5-slim
+debian:trixie-slim
+
+#alpine:3.14.10
+alpine:3.20.3
+alpine:3.21.3
+alpine:3.22.1
+alpine:3.23.4

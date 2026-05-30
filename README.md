@@ -1,2 +1,2 @@
-# docker2acr
-sync Docker images all arch to Aliyun Container Registry (ACR)
+# sync-docker
+sync docker images all arch to destinationr registry , eg. Aliyun Container Registry (ACR)

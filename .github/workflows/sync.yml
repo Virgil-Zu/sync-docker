@@ -1,0 +1,93 @@
+name: syncing docker images
+
+# 4C/16GRAM/14GSSD
+# whoami => runner
+# pwd => /home/runner/work/docker2acr/docker2acr
+# docker whoami => root
+# docker pwd => /github/workspace
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'images.txt' ]
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+      - name: clean-system
+        run: |
+          df -hT
+          sudo apt-get update
+          sudo apt-get install -y skopeo
+          sudo apt-get autoremove --purge
+          sudo apt-get clean
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          df -hT
+          skopeo --version
+      
+      - name: sync-images
+        run: |
+          echo "${{ secrets.DEST_PASSWORD }}" | skopeo login \
+            ${{ secrets.DEST_REGISTRY }} \
+            --username "${{ secrets.DEST_USER }}" \
+            --password-stdin
+          
+          missing_images=()
+          
+          while IFS= read -r image || [[ -n "$image" ]]; do
+            [[ -z "$image" || "$image" == \#* ]] && continue
+            
+            if [[ "$image" == *":"* ]]; then
+              image_name="${image%:*}"
+              image_tag="${image##*:}"
+            else
+              image_name="$image"
+              image_tag="latest"
+            fi
+            
+            target_image_name="${image_name##*/}"
+            source_image="docker://$image"
+            target_image="docker://${{ secrets.DEST_REGISTRY }}/${{ secrets.DEST_NAMESPACE }}/$target_image_name:$image_tag"
+            
+            echo "========================================"
+            echo "Checking: $target_image"
+            echo "========================================"
+            
+            if ! skopeo inspect --insecure-policy "$target_image" > /dev/null 2>&1; then
+              missing_images+=("$source_image|$target_image")
+            else
+              echo "already exists, skip: $target_image"
+            fi
+            echo ""
+          done < images.txt
+          
+          if [ ${#missing_images[@]} -eq 0 ]; then
+            echo "all images exists, exit"
+          else
+            for item in "${missing_images[@]}"; do
+              source=$(echo "$item" | cut -d'|' -f1)
+              target=$(echo "$item" | cut -d'|' -f2)
+              
+              echo "========================================"
+              echo "Syncing: $source -> $target"
+              echo "========================================"
+              
+              skopeo copy --all --insecure-policy "$source" "$target"
+              
+              echo "complete: $source"
+              echo ""
+            done
+          fi
+      
+      - name: logout
+        if: always()
+        run: |
+          skopeo logout ${{ secrets.DEST_REGISTRY }}
