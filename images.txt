@@ -79,8 +79,8 @@
 #postgres:17.6-alpine3.22
 #postgres:18.3-alpine3.23
 
-timescale/timescaledb:2.28.1-pg18
-timescale/timescaledb:2.28.1-pg18-oss 
+#timescale/timescaledb:2.28.1-pg18
+#timescale/timescaledb:2.28.1-pg18-oss 
 
 #redis:7.4.0-alpine3.20
 #redis:7.4.1-alpine3.20
@@ -197,3 +197,6 @@ timescale/timescaledb:2.28.1-pg18-oss
 #pytorch/pytorch:2.5.1-cuda12.1-cudnn9-runtime
 #pytorch/pytorch:2.3.0-cuda12.1-cudnn8-runtime
 #pytorch/pytorch:2.3.0-cuda12.1-cudnn8-devel
+
+maptiler/tileserver-gl:v5.6.0
+
