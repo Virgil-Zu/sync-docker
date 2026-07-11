@@ -198,5 +198,16 @@
 #pytorch/pytorch:2.3.0-cuda12.1-cudnn8-runtime
 #pytorch/pytorch:2.3.0-cuda12.1-cudnn8-devel
 
-maptiler/tileserver-gl:v5.6.0
+ibm-semeru-runtimes:open-8-jdk-noble
+ibm-semeru-runtimes:open-8-jre-noble
+ibm-semeru-runtimes:open-11-jdk-noble
+ibm-semeru-runtimes:open-11-jre-noble
+ibm-semeru-runtimes:open-17-jdk-noble
+ibm-semeru-runtimes:open-17-jre-noble
+ibm-semeru-runtimes:open-21-jdk-noble
+ibm-semeru-runtimes:open-21-jre-noble
+ibm-semeru-runtimes:open-25-jdk-noble
+ibm-semeru-runtimes:open-25-jre-noble
+
+#maptiler/tileserver-gl:v5.6.0
 
