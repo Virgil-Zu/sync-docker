@@ -210,5 +210,6 @@
 #ibm-semeru-runtimes:open-25-jre-noble
 
 #maptiler/tileserver-gl:v5.6.0
-bluenviron/mediamtx:1.19.2
+#bluenviron/mediamtx:1.19.2
 
+openjdk:25-ea-jdk-slim-bullseye
