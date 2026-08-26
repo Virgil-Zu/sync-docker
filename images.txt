@@ -29,6 +29,7 @@
 #alpine:3.22.1
 #alpine:3.23.2
 #alpine:3.23.4
+alpine:3.24.1
 
 #busybox:1.36.1-musl
 #busybox:1.36.1-glibc
@@ -87,6 +88,7 @@
 #redis:7.4.2-alpine3.21
 #redis:8.2.1-alpine3.22
 #redis:8.6.3-alpine3.23
+redis:8.10.1-alpine3.23
 
 #memcached:1.6.31-alpine3.20
 
@@ -212,4 +214,8 @@
 #maptiler/tileserver-gl:v5.6.0
 #bluenviron/mediamtx:1.19.2
 
-openjdk:25-ea-jdk-slim-bullseye
+#openjdk:25-ea-jdk-slim-bullseye
+
+eclipse-mosquitto:2.1.2-alpine
+
+
